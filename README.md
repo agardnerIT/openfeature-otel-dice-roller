@@ -9,6 +9,7 @@ This is the OpenTelemetry "getting started" code, slightly modified to:
 3) The dice roller application adds the feature flag information to the span data according to the [OpenTelemetry specifications for feature flags](https://opentelemetry.io/docs/specs/semconv/feature-flags/feature-flags-spans/).
 
 ![](assets/apptrace.jpg)
+![](assets/flagdconnectioncodesnippet.jpg)
 ![](assets/codesnippet.jpg)
 
 In this setup, both flagd (the flag backend system) **and** the "dice roller" application will both generate OpenTelemetry traces.
