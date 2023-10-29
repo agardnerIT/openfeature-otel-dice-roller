@@ -77,7 +77,7 @@ View traces in Jaeger: `http://localhost:16686/search?service=dice-roller`
 
 View traces in Jaeger: `http://localhost:16686/search?service=flagd`
 
-![](assets/jaeger-flagd-traces.jpg)
+![](assets/flagdtrace.jpg)
 
 ## Step 6: Change flag definition
 
