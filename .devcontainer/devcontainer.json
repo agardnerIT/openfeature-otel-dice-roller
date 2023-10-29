@@ -1,0 +1,46 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/go
+{
+	"name": "Go",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/go:1-1.21-bullseye",
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker": "latest"
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+		16686,
+		4317,
+		4318,
+		8080,
+		8013
+	],
+  
+	"portsAttributes": {
+		"16686": {
+			"label": "Jaeger",
+			"onAutoForward": "notify"
+		},
+		"4317": {
+			"label": "OTEL collector (gRPC)",
+			"onAutoForward": "silent"
+		},
+		"4318": {
+			"label": "OTEL collector (HTTP)",
+			"onAutoForward": "silent"
+		},
+		"8013": {
+			"label": "flagd",
+			"onAutoForward": "silent"
+		},
+		"8080": {
+			"label": "Dice Roller Application",
+			"onAutoForward": "notify"
+		}
+	},
+	"postCreateCommand": "./postCreate.sh",
+	"postStartCommand": "./postStart.sh"
+}
