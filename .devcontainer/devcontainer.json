@@ -41,6 +41,6 @@
 			"onAutoForward": "notify"
 		}
 	},
-	"postCreateCommand": "./postCreate.sh",
-	"postStartCommand": "./postStart.sh"
+	"postCreateCommand": ".devcontainer/postCreate.sh",
+	"postStartCommand": ".devcontainer/postStart.sh"
 }
