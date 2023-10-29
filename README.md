@@ -69,11 +69,15 @@ Access the application: `http://localhost:8080/rolldice`
 
 ## Step 4: View Application Traces
 
+These traces are generated from the application itself. They tell the story of your users experience with the application.
+
 View traces in Jaeger: `http://localhost:16686/search?service=dice-roller`
 
 ![](assets/apptrace.jpg)
 
 ## Step 5: View flagd Traces
+
+These traces are generated from your flag system (flagd). They show the internal workings of the flag backend.
 
 View traces in Jaeger: `http://localhost:16686/search?service=flagd`
 
@@ -90,6 +94,8 @@ This will make flagd return the `on` variant with the value `true`.
 > Note: No restarts are necessary. Flagd is watching this file so will automatically pick up the changes and emit an OpenTelemetry trace
 
 In Jaeger under the `flagd` service, notice there is a `flagSync` trace with the relevant information including how many flags were updated.
+
+This traces shows how long it took flagd to notice the change to `demo.flagd.json` and update the backend.
 
 ![](assets/flagsync.jpg)
 
