@@ -1,8 +1,8 @@
 #!/bin/sh
 
 JAEGER_VERSION=1.50
-FLAGD_VERSION=latest
-OTEL_COLLECTOR_ADDR=localhost
+FLAGD_VERSION=v0.6.7
+OTEL_COLLECTOR_ADDR=host.docker.internal
 OTEL_COLLECTOR_PORT=4317
 
 ## Start Jaeger
@@ -15,13 +15,13 @@ docker run \
   -p 16686:16686 \
   jaegertracing/all-in-one:${JAEGER_VERSION}
 
-## Start flagd
 echo ">> Starting flagd"
 docker run \
   --rm -d \
   --name flagd \
   -p 8013:8013 \
   -v $(pwd):/etc/flagd \
+  --add-host=${OTEL_COLLECTOR_ADDR}:host-gateway \
   ghcr.io/open-feature/flagd:${FLAGD_VERSION} start \
   --uri file:./etc/flagd/demo.flagd.json \
   --metrics-exporter otel \
