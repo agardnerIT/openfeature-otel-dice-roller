@@ -81,6 +81,14 @@ View traces in Jaeger: `http://localhost:16686/search?service=flagd`
 
 It is time to slow your roll. Do this by changing the feature flag definition (effectively, turning it on).
 
-Modify
+Modify [line 9 of demo.flagd.json](https://github.com/agardnerIT/openfeature-otel-dice-roller/blob/45b8496620cfed77c54a21f8526661c9e31b9cc6/demo.flagd.json#L9) and change `defaultValue` from `off` to `on`.
+
+This will make flagd return the `on` variant with the value `true`.
+
+> Note: No restarts are necessary. Flagd is watching this file so will automatically pick up the changes and emit an OpenTelemetry trace
+
+In Jaeger under the `flagd` service, notice there is a `flagSync` trace with the relevant information including how many flags were updated.
+
+![](assets/flagsync.jpg)
 
 
