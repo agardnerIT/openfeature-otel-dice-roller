@@ -21,7 +21,19 @@ This provides two "lenses" on the data:
 
 
 # Run in the Cloud
-TODO
+
+## Step 1: Open Codespace
+
+1. Click "Code" and change to "Codespaces" tab.
+2. Click "Open codespace on main"
+
+Wait until you see "Running postStartCommand..."
+
+![](assets/postStartCommand.jpg)
+
+## Step 2: Access Application
+
+
 
 ---------------------
 
