@@ -107,6 +107,8 @@ Refresh the application a few times to create some slow requests (should take 2s
 
 Click "Find traces" again in Jaeger to view the slower traces. Examine the span metadata to see the feature flag information.
 
+Notice that `feature_flag.variant` is now `true` and the code stipulates that in this case, the request is slowed down.
+
 ![](assets/slowtraces.jpg)
 
 
