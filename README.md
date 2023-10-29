@@ -1,6 +1,7 @@
 # OpenFeature & OpenTelemetry Dice Roller
 
 ![](assets/apptrace.jpg)
+![](assets/codesnippet.jpg)
 
 The OpenTelemetry dice roll example instrumented with [OpenFeature](https://openfeature.dev), [Jaeger](https://jaegertracing.io) and [flagd](https://flagd.dev).
 
