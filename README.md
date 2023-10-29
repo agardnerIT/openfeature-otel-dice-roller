@@ -69,7 +69,7 @@ Access the application: `http://localhost:8080/rolldice`
 
 View traces in Jaeger: `http://localhost:16686/search?service=dice-roller`
 
-![](assets/jaeger-app-traces.jpg)
+![](assets/apptrace.jpg)
 
 ## Step 5: View flagd Traces
 
