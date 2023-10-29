@@ -74,6 +74,7 @@ func newHTTPHandler() http.Handler {
 	}
 
 	// Register handlers.
+	handleFunc("/", renderHomepage)
 	handleFunc("/rolldice", rolldice)
 
 	// Add HTTP instrumentation for the whole server.
