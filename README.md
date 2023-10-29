@@ -101,4 +101,12 @@ This traces shows how long it took flagd to notice the change to `demo.flagd.jso
 
 ![](assets/flagsync.jpg)
 
+## Step 7: Create and View Slowed Requests
+
+Refresh the application a few times to create some slow requests (should take 2s each): `http://localhost:8080/rolldice`.
+
+Click "Find traces" again in Jaeger to view the slower traces. Examine the span metadata to see the feature flag information.
+
+![](assets/slowtraces.jpg)
+
 
