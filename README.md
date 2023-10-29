@@ -2,7 +2,7 @@
 
 The OpenTelemetry dice roll example instrumented with [OpenFeature](https://openfeature.dev), [Jaeger](https://jaegertracing.io) and [flagd](https://flagd.dev).
 
-This is the OpenTelemetry "getting started" code, slightly modified to:
+This is the [OpenTelemetry "getting started" code (in Go)](https://opentelemetry.io/docs/instrumentation/go/getting-started/), slightly modified to:
 
 1) Send traces to Jaeger and not stdout
 2) The dice roller application is feature flagged to add an artificial pause
