@@ -41,6 +41,14 @@ func init() {
     ))
 }
 
+func renderHomepage(w http.ResponseWriter, r *http.Request) {
+	resp := "Go to /rolldice"
+
+	if _, err := io.WriteString(w, resp); err != nil {
+		log.Printf("Write failed: %v\n", err)
+	}
+}
+
 func rolldice(w http.ResponseWriter, r *http.Request) {
 
 	feature_flag_key := "slow-your-roll"
