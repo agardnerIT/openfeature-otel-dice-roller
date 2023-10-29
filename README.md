@@ -1,8 +1,5 @@
 # OpenFeature & OpenTelemetry Dice Roller
 
-![](assets/apptrace.jpg)
-![](assets/codesnippet.jpg)
-
 The OpenTelemetry dice roll example instrumented with [OpenFeature](https://openfeature.dev), [Jaeger](https://jaegertracing.io) and [flagd](https://flagd.dev).
 
 This is the OpenTelemetry "getting started" code, slightly modified to:
@@ -10,6 +7,9 @@ This is the OpenTelemetry "getting started" code, slightly modified to:
 1) Send traces to Jaeger and not stdout
 2) The dice roller application is feature flagged to add an artificial pause
 3) The dice roller application adds the feature flag information to the span data according to the [OpenTelemetry specifications for feature flags](https://opentelemetry.io/docs/specs/semconv/feature-flags/feature-flags-spans/).
+
+![](assets/apptrace.jpg)
+![](assets/codesnippet.jpg)
 
 In this setup, both flagd (the flag backend system) **and** the "dice roller" application will both generate OpenTelemetry traces.
 
