@@ -6,14 +6,16 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
+	"fmt"
 
+	"context"
+	"time"
+
+	flagd "github.com/open-feature/go-sdk-contrib/providers/flagd/pkg"
+	"github.com/open-feature/go-sdk/pkg/openfeature"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/metric"
-	"github.com/open-feature/go-sdk-contrib/providers/flagd/pkg"
-   	"github.com/open-feature/go-sdk/pkg/openfeature"
-	"context"
-	"time"
 )
 
 var (
@@ -53,19 +55,26 @@ func rolldice(w http.ResponseWriter, r *http.Request) {
 
 	feature_flag_key := "slow-your-roll"
 
+	evaluationContext := openfeature.NewEvaluationContext("flagKeyIgnoredByFlagd", map[string]interface{}{
+        "userAgent": r.UserAgent(),
+    },)
+
 	// Get flag value...
 	// Evaluate your feature flag
     slowYourRoll, _ := openFeatureClient.BooleanValue(
-        context.Background(), feature_flag_key, false, openfeature.EvaluationContext{},
+        context.Background(), feature_flag_key, false, evaluationContext,
     )
 
 	ctx, span := tracer.Start(r.Context(), "roll")
 	defer span.End()
 
+	evaluationContextString := fmt.Sprintf("%#v", evaluationContext)
+
 	// Add feature flag values
 	span.SetAttributes(attribute.String("feature_flag.key", feature_flag_key))
 	span.SetAttributes(attribute.String("feature_flag.provider_name", "flagd"))
 	span.SetAttributes(attribute.Bool("feature_flag.variant", slowYourRoll))
+	span.SetAttributes(attribute.String("feature_flag.evaluation_context", evaluationContextString))
 
 	if slowYourRoll {
 		time.Sleep(2 * time.Second)
