@@ -178,4 +178,84 @@ Notice that `feature_flag.variant` is now `true` and [the code stipulates that i
 
 ![](assets/slowtraces.jpg)
 
+## Step 8: Slow Down traces for everyone except ChatGPT Bot
+
+As you've seen above, feature flags allow for different experiences / features per user cohort.
+
+For example, providing Large Language Models (LLMs) with a page optimised for them whilst providing "normal" users the standard page.
+
+The browsers `UserAgent` header will now be leveraged to provide a different user experience depending on the header value.
+
+- Normal users will get a slow response (simulating returning "standard" content")
+- The ChatGPT bot will receive a fast response (simulating returning LLM-optimised content)
+
+To achieve this we need to:
+
+- Send the UserAgent string to flagd so that the value can be evaluated when a flag value decision is being made
+- Ensure this contextual data is available on the distributed traces so that the human system operators can understand **why** certain requests are slow
+- Based on that evaluation, flagd will then return the appropriate `slow-your-roll` value. `on` for normal users (slow) and `off` for ChatGPT bot
+
+### Send Evaluation Context
+
+[The code is already configured](rolldice.go#L58) to send the `UserAgent` string to flagd.
+
+### Contextual Data in Traces
+
+[The evaluation contextual data is already being added](rolldice.go#L78) as a span attribute and will appear in Jaeger.
+
+## Configure slow-your-roll flag
+
+Open `demo.flagd.json` and replace the existing flag definition with the content below. Save the file.
+
+This definition means:
+
+1. Everyone gets the `defaultVariant` of `on` (ie. a slow response)
+2. Unless the `targeting` rule is matched
+3. If an evaluation context variable of `userAgent` (see [key in rolldice.go](rolldice.go#L60)) is available and it contains the string `GPTBot` then return `off` (ie. a fast response)
+4. If an evaluation context variable of `userAgent` is available, but the value does **not** contain `GPTBot` then return `on` (ie. slow response)
+
+```
+{
+  "flags": {
+    "slow-your-roll": {
+      "state": "ENABLED",
+      "variants": {
+        "on": true,
+        "off": false
+      },
+      "defaultVariant": "on",
+      "targeting": {
+        "if" : [{
+          "in": [ "GPTBot", { "var": "userAgent" } ]
+        },
+        "off", "on"
+        ]
+      }
+    }
+  }
+}
+```
+
+### Test it out
+
+Refresh the demo app page and the response will still be slow.
+
+Change the browser UserAgent to [match ChatGPTs](https://platform.openai.com/docs/gptbot/gptbot):
+
+```
+Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.0; +https://openai.com/gptbot)
+```
+
+In Chrome:
+
+1. Open DevTools
+2. Go to `Network` tab
+3. Open the `Network Conditions` subtab
+4. Uncheck the "use default" box
+5. Enter the above UserAgent
+
+Refresh the demo app again and with the new UserAgent, the experience will be quick.
+
+![Configure UserAgent in Chrome](assets/chromeChatGPTUserAgent.jpg)
+
 
