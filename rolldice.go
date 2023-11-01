@@ -55,7 +55,7 @@ func rolldice(w http.ResponseWriter, r *http.Request) {
 
 	feature_flag_key := "slow-your-roll"
 
-	evaluationContext := openfeature.NewEvaluationContext("flagKeyIgnoredByFlagd", map[string]interface{}{
+	evaluationContext := openfeature.NewEvaluationContext("", map[string]interface{}{
         "userAgent": r.UserAgent(),
     },)
 
