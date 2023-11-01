@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
-	"fmt"
 
 	"context"
 	"time"
@@ -19,9 +19,9 @@ import (
 )
 
 var (
-	tracer  = otel.Tracer("rolldice")
-	meter   = otel.Meter("rolldice")
-	rollCnt metric.Int64Counter
+	tracer            = otel.Tracer("rolldice")
+	meter             = otel.Meter("rolldice")
+	rollCnt           metric.Int64Counter
 	openFeatureClient = openfeature.NewClient("app")
 )
 
@@ -38,9 +38,9 @@ func init() {
 	 * Connect to feature flag system (flagd) here
 	 */
 	openfeature.SetProvider(flagd.NewProvider(
-        flagd.WithHost("localhost"),
-        flagd.WithPort(8013),
-    ))
+		flagd.WithHost("localhost"),
+		flagd.WithPort(8013),
+	))
 }
 
 func renderHomepage(w http.ResponseWriter, r *http.Request) {
@@ -55,15 +55,16 @@ func rolldice(w http.ResponseWriter, r *http.Request) {
 
 	feature_flag_key := "slow-your-roll"
 
+	// Pass UserAgent string to flagd
 	evaluationContext := openfeature.NewEvaluationContext("", map[string]interface{}{
-        "userAgent": r.UserAgent(),
-    },)
+		"userAgent": r.UserAgent(),
+	})
 
 	// Get flag value...
 	// Evaluate your feature flag
-    slowYourRoll, _ := openFeatureClient.BooleanValue(
-        context.Background(), feature_flag_key, false, evaluationContext,
-    )
+	slowYourRoll, _ := openFeatureClient.BooleanValue(
+		context.Background(), feature_flag_key, false, evaluationContext,
+	)
 
 	ctx, span := tracer.Start(r.Context(), "roll")
 	defer span.End()
