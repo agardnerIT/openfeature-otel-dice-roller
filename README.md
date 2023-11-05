@@ -34,7 +34,6 @@ Wait until you see "Running postStartCommand..."
 
 1. Navigate to the "Ports" tab
 2. Hover over the "Dice Roller Application" and click the globe icon to open the URL in a browser
-3. When you see `Go to /rolldice` Modify the URL and add `/rolldice` and press `Enter`
 
 You should now see a single digit printed to the screen. If so, it worked.
 
@@ -337,5 +336,3 @@ In Chrome:
 Refresh the demo app again and with the new UserAgent, the experience will be quick.
 
 ![Configure UserAgent in Chrome](assets/chromeChatGPTUserAgent.jpg)
-
-

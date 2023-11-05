@@ -43,12 +43,9 @@ func init() {
 	))
 }
 
+// Redirect homepage to /rolldice
 func renderHomepage(w http.ResponseWriter, r *http.Request) {
-	resp := "Go to /rolldice"
-
-	if _, err := io.WriteString(w, resp); err != nil {
-		log.Printf("Write failed: %v\n", err)
-	}
+	http.Redirect(w, r, "rolldice", http.StatusPermanentRedirect)
 }
 
 func rolldice(w http.ResponseWriter, r *http.Request) {
